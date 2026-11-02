@@ -1,0 +1,12 @@
+[
+  {"id": "d1", "tool": "set_levels", "arguments": "{\"levels\": [1, 2, 3], \"channel\": 2}"},
+  {"id": "d2", "tool": "set_levels", "arguments": "{\"levels\": [1, 2.5, true], \"channel\": 1}"},
+  {"id": "d3", "tool": "set_levels", "arguments": "{\"levels\": \"1,2\", \"channel\": 4}"},
+  {"id": "d4", "tool": "set_levels", "arguments": "{\"channel\": 2.0}"},
+  {"id": "d5", "tool": "log_reading", "arguments": "{\"sensor\": \"s2\", \"value\": false}"},
+  {"id": "d6", "tool": "log_reading", "arguments": "{\"sensor\": \"s2\", \"value\": -1.5e2, \"unit\": \"F\"}"},
+  {"id": "d7", "tool": "list_notes", "arguments": "{\"limit\": null}"},
+  {"id": "d8", "tool": "list_notes", "arguments": "{\"limit\": 0, \"folder\": \"work\", \"Limit\": 5}"},
+  {"id": "d9", "tool": "book_room", "arguments": "{\"room\": \"small\", \"guests\": 1e1, \"date\": \"2026-11-08\", \"projector\": 1}"},
+  {"id": "d10", "tool": "book_room", "arguments": "{}"}
+]

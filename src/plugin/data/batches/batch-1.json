@@ -1,0 +1,12 @@
+[
+  {"id": "c1", "tool": "book_room", "arguments": "{\"room\": \"large\", \"guests\": 4, \"date\": \"2026-11-02\"}"},
+  {"id": "c2", "tool": "book_room", "arguments": "{\"room\": \"small\", \"guests\": true, \"date\": \"2026-11-03\"}"},
+  {"id": "c3", "tool": "book_room", "arguments": "{\"room\": \"large\", \"guests\": 4.0, \"date\": \"2026-11-04\"}"},
+  {"id": "c4", "tool": "book_room", "arguments": "{\"room\": \"Large\", \"guests\": \"5\", \"date\": \"2026-11-05\"}"},
+  {"id": "c5", "tool": "book_room", "arguments": "{\"room\": 7, \"guests\": 2, \"date\": null}"},
+  {"id": "c6", "tool": "book_room", "arguments": "{\"guests\": 2, \"date\": \"2026-11-06\", \"floor\": 3}"},
+  {"id": "c7", "tool": "book_room", "arguments": "{\"Room\": \"small\", \"guests\": 1, \"date\": \"2026-11-07\"}"},
+  {"id": "c8", "tool": "list_notes", "arguments": "{}"},
+  {"id": "c9", "tool": "log_reading", "arguments": "{\"sensor\": \"s1\", \"value\": 3, \"tags\": []}"},
+  {"id": "c10", "tool": "log_reading", "arguments": "{\"sensor\": \"s1\", \"value\": \"2.5\", \"tags\": [\"a\", 2]}"}
+]

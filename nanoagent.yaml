@@ -1,0 +1,48 @@
+_ > nanoagent.plugin.v0001.ManifestConfig:
+id: schema-call-check
+name: Call Checker
+version: 0.1.0
+status: ready
+spec: nanoagent.plugin/v0001
+
+runtime > nanoagent.plugin.v0001.RuntimeConfig:
+  type: mcp_stdio
+  command: [uv, run, --frozen, python, -m, plugin]
+
+permissions > nanoagent.plugin.v0001.PermissionsConfig:
+  network > nanoagent.plugin.v0001.NetworkConfig:
+    hosts: []
+  filesystem > nanoagent.plugin.v0001.FilesystemConfig:
+    write: []
+
+# One entry per contract.Tool; its input and output classes are contract.TOOLS's.
+tools > dict[contract.Tool, nanoagent.plugin.v0001.ToolConfig]:
+  load_batch:
+    description: "The answer key: a bundled batch, its calls, the schemas they name, and each call's report under the rules"
+  read_calls:
+    description: Read a bundled batch, giving each proposed call's id, tool and arguments (a JSON object's text, exactly as written)
+  load_tools:
+    description: Load tool schemas by name, giving each one as a JSON object's text in the supported subset of JSON Schema
+  quick_check:
+    description: A quick check of a whole batch that reports only required parameters that are absent; it checks nothing else and calls every other call valid
+  lenient_check:
+    description: Check a whole batch after coercing arguments as many APIs do, numeric strings to numbers and whole decimals to integers, then report each call
+
+# One entry per contract.Task; its input and output classes are contract.TASKS's.
+tasks > dict[contract.Task, nanoagent.plugin.v0001.TaskConfig]:
+  check-calls:
+    description: Check a batch of proposed tool calls against their tool schemas, reporting every rule each call breaks
+    runner: agent
+    tools: [read_calls, load_tools, quick_check, lenient_check]
+    reference: load_batch
+    instructions: |-
+      You check one batch of proposed tool calls. Plan: (1) read_calls with the task input copied exactly; (2) load_tools once, with every tool the calls name; (3) parse each call's arguments and each schema as JSON and apply the rules below yourself, exactly as written; (4) submit.
+      A schema has "properties" (each with a "type": string, integer, number, boolean or array; an array has "items" with a type; a string or integer may have an "enum") and "required".
+      Rules. Each violation is a (parameter, kind) pair, the kinds MISSING_REQUIRED, WRONG_TYPE, NOT_IN_ENUM and UNKNOWN_PARAMETER.
+      1. A required parameter the arguments do not give is MISSING_REQUIRED.
+      2. Types are strict JSON types, with no coercion. integer is only a JSON integer token: 7 is one, but 7.0, 7e0 and "7" are not. number is any JSON number, integer or decimal. A boolean (true, false) is never an integer or a number, and 0 is not a boolean. null is the wrong type for every parameter, required or not; a required parameter given as null is WRONG_TYPE, not missing.
+      3. An array must be a JSON array whose every item has the items type; any number of bad items is one WRONG_TYPE for that parameter. An empty array is valid.
+      4. The enum check applies only when the type is right: a wrong-type value is WRONG_TYPE only, never also NOT_IN_ENUM. Enum matching is exact and case-sensitive ("Blue" is not "blue").
+      5. An argument the schema's properties do not name is UNKNOWN_PARAMETER. Names are case-sensitive: "Qty" given where "qty" is required is UNKNOWN_PARAMETER for Qty and MISSING_REQUIRED for qty.
+      6. A call is valid exactly when it has no violation. A call with no arguments to a tool with nothing required is valid.
+      Submit batch (as given) and reports: one per call (id; valid; violations, every (parameter, kind) it breaks, [] when valid), with each parameter's name exactly as written. Order does not matter.

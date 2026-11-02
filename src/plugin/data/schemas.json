@@ -1,0 +1,50 @@
+[
+  {
+    "tool": "book_room",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "room": {"type": "string", "enum": ["small", "large"]},
+        "guests": {"type": "integer"},
+        "date": {"type": "string"},
+        "projector": {"type": "boolean"}
+      },
+      "required": ["room", "guests", "date"]
+    }
+  },
+  {
+    "tool": "log_reading",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "sensor": {"type": "string"},
+        "value": {"type": "number"},
+        "tags": {"type": "array", "items": {"type": "string"}},
+        "unit": {"type": "string", "enum": ["c", "f"]}
+      },
+      "required": ["sensor", "value"]
+    }
+  },
+  {
+    "tool": "list_notes",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "limit": {"type": "integer"},
+        "folder": {"type": "string"}
+      },
+      "required": []
+    }
+  },
+  {
+    "tool": "set_levels",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "levels": {"type": "array", "items": {"type": "integer"}},
+        "channel": {"type": "integer", "enum": [1, 2, 3]}
+      },
+      "required": ["levels"]
+    }
+  }
+]

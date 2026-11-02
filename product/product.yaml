@@ -1,0 +1,13 @@
+_ > nanoagent.plugin.v0001.ProductConfig:
+tagline: "Check proposed tool calls against their schemas, strictly"
+summary: "Call Checker hands an agent a batch of proposed tool calls and the schemas of the tools they name, and asks which calls are valid and every rule each one breaks: a missing required parameter, a wrong type, a value outside an enum, or an unknown parameter. Types are strict JSON types, with no coercion. A deterministic verifier checks every call again and names each report that is wrong."
+highlights:
+  - "Strict JSON types: 1.0 is not an integer, true is not a number, null is never right"
+  - "Every violation per call, with a wrong type never also counted against its enum"
+  - "Two tempting shortcuts: a check that only sees missing parameters, and one that coerces \"5\" to 5"
+  - "Runs offline on bundled batches: the same verdict every time"
+steps:
+  - "Ask the chat to check one of the bundled batches, such as batch-1.json"
+  - "The agent reads the calls and loads the schemas of the tools they name"
+  - "It applies the rules itself to every call, then submits a report per call"
+  - "The verifier checks every call again and names any report it got wrong"
